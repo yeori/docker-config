@@ -1,0 +1,36 @@
+version: "3.5"
+
+x-tomcat-config: 
+  &tomcat
+  environment:
+    JAVA_OPTS: -Dspring.profiles.active=docker
+    SERVER_NAME:
+  build:
+    context: ./tomcat
+    dockerfile: Dockerfile
+    args:
+      server_name: "yes"
+      port: 8080
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        conf: geharo.conf
+    ports:
+      - "80:80"
+  tc01:
+    <<: *tomcat
+    build:
+      context: ./tomcat
+      args:
+        port: 8080
+        server_name: 'tc01'
+  tc02:
+    <<: *tomcat
+    build:
+      context: ./tomcat
+      args:
+        port: 8080
+        server_name: 'tc02'

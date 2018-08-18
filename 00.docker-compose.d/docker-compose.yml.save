@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        conf: ./default.conf
+  tc8080: &tc
+    environment:
+      - JAVA_OPTS=-Dspring.profiles.active=docker
+    build:
+      context: ./tomcat
+      dockerfile: Dockerfile
+      args:
+        port: 8080
+        
