@@ -1,0 +1,55 @@
+version: "3.5"
+
+x-tomcat-config: 
+  &tomcat
+  environment:
+    JAVA_OPTS: -Dspring.profiles.active=docker
+    SERVER_NAME:
+  links:
+    - geharodb
+  build:
+    context: ./tomcat
+    dockerfile: Dockerfile
+    args:
+      server_name: "yes"
+      port: 8080
+
+services:
+  geharodb:
+    container_name: geharodb
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+    volumes:
+#     - ./mariadb/conf:/etc/mysql
+      - ./mariadb/data:/var/lib/mysql
+    build:
+      context: ./mariadb
+      
+  nginx:
+    container_name: nginx
+    links:
+      - tc01
+      - tc02
+    build:
+      context: ./nginx
+      args:
+        conf: geharo.conf
+    ports:
+      - "80:80"
+  tc01:
+    <<: *tomcat
+    container_name: tc01
+    build:
+      context: ./tomcat
+      args:
+        port: 8080
+        server_name: 'tc01'
+  tc02:
+    <<: *tomcat
+    container_name: tc02
+    build:
+      context: ./tomcat
+      args:
+        port: 8080
+        server_name: 'tc02'
