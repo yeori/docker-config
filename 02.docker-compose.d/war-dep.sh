@@ -2,7 +2,7 @@
 #WATCH_DIR=$(pwd)/tomcat/webapps
 WATCH_DIR='/usr/local/apache*/webapps'
 WAR_NAME=ROOT.war
-SLEEP=2
+SLEEP=1
 console () {
   echo >&2 $1
   # return 0
