@@ -21,7 +21,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASS}
     volumes:
-#     - ./mariadb/conf:/etc/mysql
+      - ./mariadb/conf:/etc/mysql
       - ./mariadb/data:/var/lib/mysql
     build:
       context: ./mariadb
