@@ -14,5 +14,5 @@ RUN  rm  -rf /etc/nginx/conf.d/*.conf
 COPY $conf /etc/nginx/conf.d
 
 EXPOSE     80
-
+EXPOSE     443
 CMD       ["nginx", "-g", "daemon off;"]

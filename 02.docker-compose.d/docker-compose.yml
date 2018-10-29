@@ -31,12 +31,15 @@ services:
     links:
       - tc01
       - tc02
+    volumes:
+      - ./nginx/certs-data:/data/letsencrypt
     build:
       context: ./nginx
       args:
         conf: geharo.conf
     ports:
-      - "80:80"
+      - 80:80
+      - 443:443
   tc01:
     <<: *tomcat
     container_name: tc01
